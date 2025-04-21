@@ -18,9 +18,8 @@ useEffect(() => {
 const login = (userData) => {
     localStorage.setItem("userData", JSON.stringify(userData));
     setUserCredentials(userData);
-    
   };
-
+console.log(UserCredentials)
   const logout = () => {
     localStorage.removeItem("userData");
     setUserCredentials(null);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect,useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Redux/AuthContext';
 import AccountOptions from './AccountOptions';
@@ -8,6 +8,21 @@ import { ChevronDown } from 'lucide-react';
 const Navbar = () => {
   const [IsAccountoption, setIsAccountoption] = useState(false);
   const { UserCredentials } = useAuth();
+  const dropdownRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsAccountoption(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -33,13 +48,13 @@ const Navbar = () => {
 
           {/* Added Analyze Resume button */}
           <Link 
-            to="/ProfilePage" 
+            to="/Analyze" 
             className="bg-yellow-300 hover:bg-yellow-400 text-blue-800 font-semibold px-4 py-2 rounded-full shadow-md transition-all"
           >
             Analyze Resume
           </Link>
 
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <div
               onClick={() => setIsAccountoption(!IsAccountoption)}
               className="flex items-center gap-2 py-2 px-4 bg-blue-500 text-white rounded-full cursor-pointer hover:bg-blue-600 transition-all"

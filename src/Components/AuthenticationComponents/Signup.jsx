@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import userRegistration from '../../Utilites/userRegistration';
+import CustomToastContainer from '../CustomToastContainer';
 const Signup = () => {
     const [formData,setFormData]= useState(
     {
@@ -13,6 +14,8 @@ const Signup = () => {
     }
 
   return (
+    <>
+    <CustomToastContainer/>
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center px-4">
         <div className="bg-white shadow-2xl rounded-2xl max-w-md w-full p-8 sm:p-10 space-y-6">
           <h2 className="text-3xl font-bold text-center text-gray-800">Create Account</h2>
@@ -61,7 +64,8 @@ const Signup = () => {
             Already have an account? <a href="/login" className="text-blue-500 hover:underline">Login</a>
           </p>
         </div>
-      </div>  )
+      </div>  
+      </>)
 }
 
 export default Signup

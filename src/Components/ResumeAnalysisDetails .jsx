@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Doughnut, Line } from 'react-chartjs-2'; // For charts
 import { FaCheckCircle } from "react-icons/fa"; // For icons
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   Chart as ChartJS,
@@ -29,7 +29,9 @@ ChartJS.register(
 
 const ResumeAnalysisDetails = ({ resumeData, jobRecommendations }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const location =useLocation();
+  const {AnalyseData}=location.state
+  console.log(AnalyseData)
   // Chart Data for Resume Analysis
   const skillData = {
     labels: ['JavaScript', 'React', 'Node.js', 'CSS', 'Java'],
@@ -76,17 +78,17 @@ const ResumeAnalysisDetails = ({ resumeData, jobRecommendations }) => {
             <div className="flex flex-col items-center p-4 bg-blue-100 rounded-lg shadow-md">
               <FaCheckCircle className="text-4xl text-blue-600 mb-2" />
               <h3 className="text-xl font-semibold">Skill Match</h3>
-              <p className="text-gray-700">85% match with desired skills in the job market</p>
+              <p className="text-gray-700">{AnalyseData?.skill_match_summary}</p>
             </div>
             <div className="flex flex-col items-center p-4 bg-green-100 rounded-lg shadow-md">
               <FaCheckCircle className="text-4xl text-green-600 mb-2" />
               <h3 className="text-xl font-semibold">Experience Level</h3>
-              <p className="text-gray-700">5 years of relevant experience</p>
+              <p className="text-gray-700">{AnalyseData?.experience_summary}</p>
             </div>
             <div className="flex flex-col items-center p-4 bg-yellow-100 rounded-lg shadow-md">
               <FaCheckCircle className="text-4xl text-yellow-600 mb-2" />
               <h3 className="text-xl font-semibold">Education</h3>
-              <p className="text-gray-700">Bachelor's Degree in Computer Science</p>
+              <p className="text-gray-700">{AnalyseData?.education}</p>
             </div>
           </div>
         </section>
@@ -97,11 +99,11 @@ const ResumeAnalysisDetails = ({ resumeData, jobRecommendations }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             <div className="p-4">
               <h3 className="text-lg font-medium text-gray-800 mb-4">Skills Distribution</h3>
-              <Doughnut data={skillData} />
+              <Doughnut data={AnalyseData?.skillData} />
             </div>
             <div className="p-4">
               <h3 className="text-lg font-medium text-gray-800 mb-4">Experience Timeline</h3>
-              <Line data={experienceData} />
+              <Line data={AnalyseData?.experienceData} />
             </div>
           </div>
         </section>
@@ -110,7 +112,7 @@ const ResumeAnalysisDetails = ({ resumeData, jobRecommendations }) => {
         <section className="bg-white p-6 rounded-lg shadow-lg mb-10">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Job Recommendations</h2>
           <div className="space-y-4">
-            {jobRecommendations?.map((job, index) => (
+            {AnalyseData?.jobRecommendations?.map((job, index) => (
               <div key={index} className="bg-blue-50 p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-semibold text-blue-600">{job.title}</h3>
                 <p className="text-gray-700">{job.company}</p>
@@ -124,9 +126,13 @@ const ResumeAnalysisDetails = ({ resumeData, jobRecommendations }) => {
         <section className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Suggestions to Improve Your Resume</h2>
           <ul className="list-disc list-inside text-gray-700 space-y-4">
-            <li>Consider adding a professional summary at the beginning of your resume.</li>
-            <li>Ensure your skills section is aligned with the job descriptions you're targeting.</li>
-            <li>Include quantifiable results in your experience section to highlight your impact.</li>
+            {
+              AnalyseData?.suggestions?.map((suggestions,index)=>(
+                    <ul key={index}>
+                        {suggestions}
+                    </ul>
+              ))
+            }
           </ul>
         </section>
       </motion.div>

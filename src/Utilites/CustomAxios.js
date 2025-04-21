@@ -1,18 +1,23 @@
 import axios from "axios";
 
-// const BaseUrl="http://localhost:3000";
+// const BaseUrl = "http://localhost:3000";
 const BaseUrl="https://ai-powered-resume-analyser-server.onrender.com"
 
-const userData=localStorage.getItem('userData');
-const userCredentials= userData?JSON.parse(userData):null;
-const headers = {
+const CustomAxios = axios.create({
+  baseURL: BaseUrl,
+  headers: {
     'Content-Type': 'application/json',
-    ...(userCredentials?.token && { 'Authorization': `Bearer ${userCredentials.token}` })
-  };
-  
-const CustomAxios=axios.create({
-    baseURL:BaseUrl,
-    headers
-})
+  },
+});
+
+CustomAxios.interceptors.request.use((config) => {
+  const userData = localStorage.getItem("userData");
+  const userCredentials = userData ? JSON.parse(userData) : null;
+
+  if (userCredentials?.token) {
+    config.headers.Authorization = `Bearer ${userCredentials.token}`;
+  }
+  return config;
+});
 
 export default CustomAxios;

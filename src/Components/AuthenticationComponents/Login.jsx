@@ -2,17 +2,19 @@ import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import userLogin from "../../Utilites/userLogin";
 import { useAuth } from "../../../Redux/AuthContext";
+import Loading from "../Loading";
+import CustomToastContainer from "../CustomToastContainer";
 
 const Login = () => {
   const [formData, setformaData] = useState({ email: "", password: "" });
-  const { login } = useAuth();
+  const [loading, setloading] = useState(false)
+  const {login} = useAuth();
   const navigate = useNavigate();
 
  useEffect(() => {
   if(localStorage.getItem('userData')){
     return navigate('/')
   }
-
  }, [])
  
   
@@ -20,10 +22,13 @@ const Login = () => {
     setformaData({ ...formData, [e.target.name]: e.target.value })
   }
   return (
+    <>
+        <CustomToastContainer/>
+    {loading?<Loading message="Login..."/>:
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center px-4">
       <div className="bg-white shadow-2xl rounded-2xl max-w-md w-full p-8 sm:p-10 space-y-6">
         <h2 className="text-3xl font-bold text-center text-gray-800">Login</h2>
-        <form className="space-y-4" onSubmit={(e) => userLogin(e, formData, login, navigate)}>
+        <form className="space-y-4" onSubmit={(e) => userLogin(e, formData, login, navigate,setloading)}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
@@ -71,7 +76,7 @@ const Login = () => {
         </p>
       </div>
     </div>
-
+}</>
   )
 }
 export default Login;

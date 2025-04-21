@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { IoIosAttach } from "react-icons/io";
 import { AiOutlineCloudUpload, AiOutlineDelete } from "react-icons/ai";
 import handleUploadResume from '../Utilites/handleUploadResume';
 import { motion } from 'framer-motion';
+import Loading from './Loading';
+import { useNavigate } from 'react-router-dom';
 
 const AnalyzeResume = () => {
   const [IsDraging, setIsDraging] = useState(false);
   const [File, setFile] = useState(null);
-
+  const [loading, setloading] = useState(false);
+  const [AnalyseData, setAnalyseData] = useState(null)
+  const navigate=useNavigate();
+console.log(AnalyseData)
+  useEffect(() => {
+    console.log("1")
+    if (AnalyseData) {
+      console.log("2")
+      navigate('/ResumeAnalyzeDetails', {state:{AnalyseData}});
+    }
+  }, [AnalyseData]);
   const handleDragover = (e) => {
     e.preventDefault();
     setIsDraging(true);
@@ -33,6 +45,8 @@ const AnalyzeResume = () => {
   };
 
   return (
+    <>{
+      loading?<Loading/>:
     <div className="w-full h-screen bg-gradient-to-br from-blue-50 via-purple-100 to-pink-100 flex justify-center items-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -80,7 +94,7 @@ const AnalyzeResume = () => {
 
         {File && (
           <motion.button
-            onClick={() => handleUploadResume(File)}
+            onClick={() => handleUploadResume(File,setloading,setAnalyseData)}
             className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -90,6 +104,7 @@ const AnalyzeResume = () => {
         )}
       </motion.div>
     </div>
+}</>
   );
 };
 
