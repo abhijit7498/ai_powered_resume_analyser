@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { Link } from 'react-router-dom';
 
 const data = [
   { name: 'Jan', resumes: 10 },
@@ -55,9 +56,9 @@ const HomePage = () => {
         <p className="mb-6 text-gray-600 max-w-xl mx-auto">
           Upload your resume to see AI-generated insights, skills extraction, and job recommendations tailored just for you. Stand out from the crowd!
         </p>
-        <button className="bg-blue-600 text-white text-lg px-8 py-4 rounded-2xl shadow-lg hover:bg-blue-700 transition-all duration-300">
+        <Link to='/Analyze'> <button className="bg-blue-600 text-white text-lg px-8 py-4 rounded-2xl shadow-lg hover:bg-blue-700 transition-all duration-300">
           Analyze Resume
-        </button>
+        </button></Link>
       </motion.div>
     </div>
   );
