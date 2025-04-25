@@ -13,6 +13,10 @@ import { AuthProvider } from '../Redux/AuthContext';
 import ProfilePage from './Components/ProfilePage';
 import AnalyzeResume from './Components/AnalyzeResume';
 import ResumeAnalysisDetails from './Components/ResumeAnalysisDetails ';
+import Footer from './Components/Footer';
+import Contact from './Components/Contact';
+import AboutUs from './Components/AboutUs';
+import Help from './Components/Help';
 
 function App() {
 
@@ -29,7 +33,11 @@ function App() {
           <Route path='/ResumeAnalyzeDetails' element={<Protectedroutes><ResumeAnalysisDetails/></Protectedroutes>}/>
           <Route path='/Login' element={<Login/>}/>
           <Route path='/SignUp' element={<Signup/>}/>
+          <Route path='/Contact' element={<Contact/>}/>
+          <Route path='/AboutUs' element={<AboutUs/>}/>
+          <Route path='/help' element={<Help/>}/>
         </Routes>
+        <Footer/>
       </Router>
       </AuthProvider>
     </>
